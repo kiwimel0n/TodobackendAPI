@@ -33,15 +33,4 @@ public class UserService {
 
     }
 
-    public void login(LoginRequestDto requestDto) {
-        String username = requestDto.getUsername();
-        String password = requestDto.getPassword();
-
-        User user =userRepository.findByUsername(username)
-                .orElseThrow(() -> new IllegalArgumentException("등록된 사용자가 없습니다."));
-
-        if(!passwordEncoder.matches(password,user.getPassword())){
-            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
-        }
-    }
 }
