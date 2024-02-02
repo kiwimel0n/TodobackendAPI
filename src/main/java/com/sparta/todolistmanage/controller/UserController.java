@@ -1,6 +1,5 @@
 package com.sparta.todolistmanage.controller;
 
-import com.sparta.todolistmanage.dto.LoginRequestDto;
 import com.sparta.todolistmanage.dto.SignupRequestDto;
 import com.sparta.todolistmanage.service.UserService;
 import jakarta.validation.Valid;

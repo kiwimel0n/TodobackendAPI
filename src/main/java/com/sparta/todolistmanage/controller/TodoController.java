@@ -9,9 +9,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -22,10 +22,27 @@ public class TodoController {
 
 
     @PostMapping("/create")
-    public ResponseEntity<?> createToDo(@RequestBody TodoRequestDto requestDto,
-                                     @AuthenticationPrincipal UserDetailsImpl userDetails){
+    public ResponseEntity<?> createTodo(@RequestBody TodoRequestDto requestDto,
+                                        @AuthenticationPrincipal UserDetailsImpl userDetails){
         TodoResponseDto responseDto = todoService.createTodo(requestDto, userDetails.getUser());
 
         return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
+    }
+
+    @GetMapping("/get/{id}")
+    public ResponseEntity<?> getTodoById(@PathVariable Long id){
+
+        List<TodoResponseDto> responseDto = todoService.getTodoById(id);
+
+        return ResponseEntity.status(HttpStatus.OK).body(responseDto);
+    }
+
+    @GetMapping("/get/list")
+    public ResponseEntity<?> getTodoList(){
+
+        List<TodoResponseDto> responseDtoList = todoService.getAllTodo();
+
+        return ResponseEntity.status(HttpStatus.OK).body(responseDtoList);
+
     }
 }
