@@ -1,5 +1,6 @@
 package com.sparta.todolistmanage.controller;
 
+import com.sparta.todolistmanage.dto.LoginRequestDto;
 import com.sparta.todolistmanage.dto.SignupRequestDto;
 import com.sparta.todolistmanage.service.UserService;
 import jakarta.validation.Valid;
@@ -24,11 +25,12 @@ public class UserController {
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@Valid @RequestBody SignupRequestDto requestDto, BindingResult bindingResult) {
         //Validation 예외처리
-        if(bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(bindingResult.getAllErrors());
         }
         userService.signup(requestDto);
 
         return ResponseEntity.status(HttpStatus.CREATED).body("회원가입 성공");
     }
+
 }
