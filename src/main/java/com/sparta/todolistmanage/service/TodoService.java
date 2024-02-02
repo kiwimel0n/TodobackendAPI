@@ -2,6 +2,7 @@ package com.sparta.todolistmanage.service;
 
 import com.sparta.todolistmanage.dto.TodoRequestDto;
 import com.sparta.todolistmanage.dto.TodoResponseDto;
+import com.sparta.todolistmanage.dto.TodoUpdateRequestDto;
 import com.sparta.todolistmanage.entity.Todo;
 import com.sparta.todolistmanage.entity.User;
 import com.sparta.todolistmanage.repository.ToDoRepository;
@@ -39,5 +40,18 @@ public class TodoService {
                 .map(TodoResponseDto::new)
                 .sorted(Comparator.comparing(TodoResponseDto::getModifiedAt).reversed())
                 .toList();
+    }
+
+    @Transactional
+    public TodoResponseDto updateTodo(Long id, TodoUpdateRequestDto requestDto, User user) {
+        Todo todo = toDoRepository.findById(id).orElseThrow(
+                ()-> new IllegalArgumentException("해당 Id를 가진 Todo를 찾을 수 없습니다.")
+        );
+
+        if(user.getUsername().equals(todo.getUser().getUsername())) {
+            todo.update(requestDto);
+            return new TodoResponseDto(todo);
+        }
+        throw new IllegalArgumentException("해당 Todo은 작성자만 수정할 수 있습니다.");
     }
 }

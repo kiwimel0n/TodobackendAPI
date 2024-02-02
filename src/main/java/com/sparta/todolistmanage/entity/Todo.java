@@ -1,6 +1,7 @@
 package com.sparta.todolistmanage.entity;
 
 import com.sparta.todolistmanage.dto.TodoRequestDto;
+import com.sparta.todolistmanage.dto.TodoUpdateRequestDto;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -34,5 +35,10 @@ public class Todo extends Timestamped{
         this.todoName = requestDto.getTodoName();
         this.contents = requestDto.getContents();
         this.user = user;
+    }
+
+    public void update(TodoUpdateRequestDto requestDto) {
+        this.todoName = requestDto.getTodoName();
+        this.contents = requestDto.getContents();
     }
 }

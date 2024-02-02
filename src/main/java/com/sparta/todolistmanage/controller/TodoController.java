@@ -2,7 +2,7 @@ package com.sparta.todolistmanage.controller;
 
 import com.sparta.todolistmanage.dto.TodoRequestDto;
 import com.sparta.todolistmanage.dto.TodoResponseDto;
-import com.sparta.todolistmanage.entity.Todo;
+import com.sparta.todolistmanage.dto.TodoUpdateRequestDto;
 import com.sparta.todolistmanage.security.UserDetailsImpl;
 import com.sparta.todolistmanage.service.TodoService;
 import lombok.RequiredArgsConstructor;
@@ -47,6 +47,14 @@ public class TodoController {
 
     }
 
-//    @PostMapping("/update/{id}")
-//    public ResponseEntity<?> updateTodo(@PathVariable Long id, @RequestBody Todo)
+    @PutMapping("/update/{id}")
+    public ResponseEntity<?> updateTodo(
+            @PathVariable Long id,
+            @RequestBody TodoUpdateRequestDto requestDto,
+            @AuthenticationPrincipal UserDetailsImpl userDetails){
+
+       TodoResponseDto responseDto = todoService.updateTodo(id, requestDto, userDetails.getUser());
+
+       return ResponseEntity.status(HttpStatus.OK).body(responseDto);
+    }
 }
