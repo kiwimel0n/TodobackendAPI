@@ -1,7 +1,7 @@
 package com.sparta.todolistmanage.security;
 
-import org.springframework.security.core.GrantedAuthority;
 import com.sparta.todolistmanage.entity.User;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
@@ -12,6 +12,10 @@ public class UserDetailsImpl implements UserDetails {
 
     public UserDetailsImpl(User user) {
         this.user = user;
+    }
+
+    public User getUser() {
+        return user;
     }
 
     @Override
