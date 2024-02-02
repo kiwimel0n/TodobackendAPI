@@ -2,6 +2,7 @@ package com.sparta.todolistmanage.controller;
 
 import com.sparta.todolistmanage.dto.TodoRequestDto;
 import com.sparta.todolistmanage.dto.TodoResponseDto;
+import com.sparta.todolistmanage.entity.Todo;
 import com.sparta.todolistmanage.security.UserDetailsImpl;
 import com.sparta.todolistmanage.service.TodoService;
 import lombok.RequiredArgsConstructor;
@@ -37,7 +38,7 @@ public class TodoController {
         return ResponseEntity.status(HttpStatus.OK).body(responseDto);
     }
 
-    @GetMapping("/get/list")
+    @GetMapping("/get/all")
     public ResponseEntity<?> getTodoList(){
 
         List<TodoResponseDto> responseDtoList = todoService.getAllTodo();
@@ -45,4 +46,7 @@ public class TodoController {
         return ResponseEntity.status(HttpStatus.OK).body(responseDtoList);
 
     }
+
+//    @PostMapping("/update/{id}")
+//    public ResponseEntity<?> updateTodo(@PathVariable Long id, @RequestBody Todo)
 }
