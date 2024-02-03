@@ -1,5 +1,6 @@
 package com.sparta.todolistmanage.service;
 
+import com.sparta.todolistmanage.dto.TodoListResponseDto;
 import com.sparta.todolistmanage.dto.TodoRequestDto;
 import com.sparta.todolistmanage.dto.TodoResponseDto;
 import com.sparta.todolistmanage.dto.TodoUpdateRequestDto;
@@ -34,11 +35,11 @@ public class TodoService {
     }
 
     @Transactional(readOnly = true)
-    public List<TodoResponseDto> getAllTodo() {
+    public List<TodoListResponseDto> getAllTodo() {
         return toDoRepository.findAll()
                 .stream()
-                .map(TodoResponseDto::new)
-                .sorted(Comparator.comparing(TodoResponseDto::getModifiedAt).reversed())
+                .map(TodoListResponseDto::new)
+                .sorted(Comparator.comparing(TodoListResponseDto::getModifiedAt).reversed())
                 .toList();
     }
 
@@ -48,10 +49,22 @@ public class TodoService {
                 ()-> new IllegalArgumentException("해당 Id를 가진 Todo를 찾을 수 없습니다.")
         );
 
-        if(user.getUsername().equals(todo.getUser().getUsername())) {
-            todo.update(requestDto);
-            return new TodoResponseDto(todo);
+        if(!user.getUsername().equals(todo.getUser().getUsername())) {
+            throw new IllegalArgumentException("해당 Todo은 작성자만 수정할 수 있습니다.");
         }
-        throw new IllegalArgumentException("해당 Todo은 작성자만 수정할 수 있습니다.");
+        todo.update(requestDto);
+        return new TodoResponseDto(todo);
+    }
+
+    public TodoResponseDto completeTodo(Long id, User user) {
+        Todo todo = toDoRepository.findById(id).orElseThrow(
+                ()-> new IllegalArgumentException("해당 Id를 가진 Todo를 찾을 수 없습니다.")
+        );
+
+        if(!user.getUsername().equals(todo.getUser().getUsername())) {
+            throw new IllegalArgumentException("해당 Todo는 작성자만 완료처리가 가능합니다");
+        }
+        todo.completeTodo(todo);
+        return new TodoResponseDto(todo);
     }
 }

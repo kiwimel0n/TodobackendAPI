@@ -1,5 +1,6 @@
 package com.sparta.todolistmanage.controller;
 
+import com.sparta.todolistmanage.dto.TodoListResponseDto;
 import com.sparta.todolistmanage.dto.TodoRequestDto;
 import com.sparta.todolistmanage.dto.TodoResponseDto;
 import com.sparta.todolistmanage.dto.TodoUpdateRequestDto;
@@ -41,7 +42,7 @@ public class TodoController {
     @GetMapping("/get/all")
     public ResponseEntity<?> getTodoList(){
 
-        List<TodoResponseDto> responseDtoList = todoService.getAllTodo();
+        List<TodoListResponseDto> responseDtoList = todoService.getAllTodo();
 
         return ResponseEntity.status(HttpStatus.OK).body(responseDtoList);
 
@@ -57,4 +58,15 @@ public class TodoController {
 
        return ResponseEntity.status(HttpStatus.OK).body(responseDto);
     }
+
+    @PatchMapping("/complete/{id}")
+    public ResponseEntity<?> completeTodo(
+            @PathVariable Long id,
+            @AuthenticationPrincipal UserDetailsImpl userDetails){
+
+       TodoResponseDto responseDto = todoService.completeTodo(id, userDetails.getUser());
+
+       return ResponseEntity.status(HttpStatus.OK).body(responseDto);
+    }
+
 }
