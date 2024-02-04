@@ -17,7 +17,7 @@ public class Todo extends Timestamped{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long todoId;
 
     @Column(name = "todo_name", nullable = false)
     private String todoName;

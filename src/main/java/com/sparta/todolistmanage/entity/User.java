@@ -14,7 +14,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id; // DB 관리용
+    private Long userId; // DB 관리용
 
     @Column(nullable = false)
     private String username;

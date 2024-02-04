@@ -7,6 +7,7 @@ import com.sparta.todolistmanage.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -18,6 +19,7 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
 
 
+    @Transactional
     public void signup(SignupRequestDto requestDto) {
         String username = requestDto.getUsername();
         String encodedPassword = passwordEncoder.encode(requestDto.getPassword());
