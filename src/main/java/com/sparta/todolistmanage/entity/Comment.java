@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.Optional;
+
 @Entity
 @Table(name="comment")
 @NoArgsConstructor
@@ -32,5 +34,9 @@ public class Comment {
         this.todo = todo;
         this.contents = requestDto.getContent();
 
+    }
+
+    public void update(CommentRequestDto requestDto) {
+        this.contents = requestDto.getContent();
     }
 }

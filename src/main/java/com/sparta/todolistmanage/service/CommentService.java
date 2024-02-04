@@ -23,4 +23,24 @@ public class CommentService {
         return new CommentResponseDto(comment);
 
     }
+
+    @Transactional
+    public CommentResponseDto updateComment(Long commentId, CommentRequestDto requestDto, User user){
+        Comment comment = findCommentById(commentId);
+
+        if(!comment.getUser().getUsername().equals(user.getUsername())){
+            throw new IllegalArgumentException("댓글 수정은 해당 사용자가 작성한 댓글만 수정가능합니다.");
+        }
+        comment.update(requestDto);
+
+        return new CommentResponseDto(comment);
+    }
+
+    public Comment findCommentById(Long commentId) {
+
+        return commentRepository.findById(commentId).orElseThrow(
+                 (()-> new IllegalArgumentException("해당 Id의 댓글이 존재하지 않습니다."))
+         );
+
+    }
 }

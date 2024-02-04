@@ -2,6 +2,7 @@ package com.sparta.todolistmanage.controller;
 
 import com.sparta.todolistmanage.dto.CommentRequestDto;
 import com.sparta.todolistmanage.dto.CommentResponseDto;
+import com.sparta.todolistmanage.entity.Comment;
 import com.sparta.todolistmanage.entity.Todo;
 import com.sparta.todolistmanage.security.UserDetailsImpl;
 import com.sparta.todolistmanage.service.CommentService;
@@ -13,7 +14,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/todo/comment")
+@RequestMapping("/api/todo/{todoId}/comment")
 @RequiredArgsConstructor
 public class CommentController {
 
@@ -21,13 +22,29 @@ public class CommentController {
 
     private final CommentService commentService;
 
-    @PostMapping("/create/{todoId}")
-    public ResponseEntity<?> createComment(@PathVariable Long todoId, @RequestBody CommentRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
+    @PostMapping("/create")
+    public ResponseEntity<?> createComment(
+            @PathVariable Long todoId,
+            @RequestBody CommentRequestDto requestDto,
+            @AuthenticationPrincipal UserDetailsImpl userDetails
+    ){
 
-            Todo todo = todoService.findTodo(todoId);
+            Todo todo = todoService.findTodoById(todoId);
 
             CommentResponseDto responseDto = commentService.createComment(userDetails.getUser(),todo,requestDto);
 
             return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
+    }
+
+    @PutMapping("/update/{commentId}")
+    public ResponseEntity<?> updateComment(
+            @PathVariable Long todoId,
+            @PathVariable Long commentId,
+            @RequestBody CommentRequestDto requestDto,
+            @AuthenticationPrincipal UserDetailsImpl userDetails
+    ){
+        CommentResponseDto responseDto = commentService.updateComment(commentId, requestDto, userDetails.getUser());
+
+        return ResponseEntity.status(HttpStatus.OK).body(responseDto);
     }
 }

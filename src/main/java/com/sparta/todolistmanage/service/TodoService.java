@@ -45,7 +45,7 @@ public class TodoService {
 
     @Transactional
     public TodoResponseDto updateTodo(Long todoId, TodoUpdateRequestDto requestDto, User user) {
-        Todo todo = findTodo(todoId);
+        Todo todo = findTodoById(todoId);
 
         if(!user.getUsername().equals(todo.getUser().getUsername())) {
             throw new IllegalArgumentException("해당 Todo은 작성자만 수정할 수 있습니다.");
@@ -56,7 +56,7 @@ public class TodoService {
 
     @Transactional
     public TodoResponseDto completeTodo(Long todoId, User user) {
-        Todo todo = findTodo(todoId);
+        Todo todo = findTodoById(todoId);
 
         if(!user.getUsername().equals(todo.getUser().getUsername())) {
             throw new IllegalArgumentException("해당 Todo는 작성자만 완료처리가 가능합니다");
@@ -65,7 +65,7 @@ public class TodoService {
         return new TodoResponseDto(todo);
     }
 
-    public Todo findTodo(Long todoId) {
+    public Todo findTodoById(Long todoId) {
         return toDoRepository.findById(todoId).orElseThrow(
                 ()-> new IllegalArgumentException("해당하는 Id를 가진 Todo를 찾을 수 없습니다.")
         );
