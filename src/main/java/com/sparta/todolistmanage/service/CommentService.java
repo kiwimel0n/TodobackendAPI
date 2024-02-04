@@ -42,4 +42,13 @@ public class CommentService {
          );
 
     }
+
+    @Transactional
+    public void deleteComment(Long commentId, User user) {
+        Comment comment = findCommentById(commentId);
+        if(!comment.getUser().getUsername().equals(user.getUsername())){
+            throw new IllegalArgumentException("댓글의 삭제는 작성자만이 삭제할 수 있습니다.");
+        }
+        commentRepository.delete(comment);
+    }
 }

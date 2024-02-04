@@ -14,7 +14,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/todo/")
+@RequestMapping(value="/api/todo/{todoId}/comment")
 @RequiredArgsConstructor
 public class CommentController {
 
@@ -22,7 +22,7 @@ public class CommentController {
 
     private final CommentService commentService;
 
-    @PostMapping("{todoId}/comment/create")
+    @PostMapping("/create")
     public ResponseEntity<?> createComment(
             @PathVariable Long todoId,
             @RequestBody CommentRequestDto requestDto,
@@ -36,7 +36,7 @@ public class CommentController {
             return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
     }
 
-    @PutMapping("{todoId}/comment/update/{commentId}")
+    @PutMapping("/update/{commentId}")
     public ResponseEntity<?> updateComment(
             @PathVariable Long todoId,
             @PathVariable Long commentId,
@@ -48,12 +48,14 @@ public class CommentController {
         return ResponseEntity.status(HttpStatus.OK).body(responseDto);
     }
 
-//    @DeleteMapping("/delete/{commentId}")
-//    public ResponseEntity<?> deleteComment(
-//            @PathVariable Long todoId,
-//            @PathVariable Long commentId,
-//            @AuthenticationPrincipal UserDetailsImpl userDetails
-//    ){
-//
-//    }
+    @DeleteMapping("/delete/{commentId}")
+    public ResponseEntity<?> deleteComment(
+            @PathVariable Long todoId,
+            @PathVariable Long commentId,
+            @AuthenticationPrincipal UserDetailsImpl userDetails
+    ){
+        commentService.deleteComment(commentId, userDetails.getUser());
+
+        return ResponseEntity.status(HttpStatus.OK).body("성공적으로 댓글 삭제가 되었습니다.");
+    }
 }
