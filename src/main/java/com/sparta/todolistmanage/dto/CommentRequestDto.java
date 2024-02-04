@@ -7,5 +7,5 @@ import lombok.Getter;
 public class CommentRequestDto {
 
     @NotNull
-    private String content;
+    private String contents;
 }

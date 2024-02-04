@@ -14,7 +14,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/todo/{todoId}/comment")
+@RequestMapping("/api/todo/")
 @RequiredArgsConstructor
 public class CommentController {
 
@@ -22,7 +22,7 @@ public class CommentController {
 
     private final CommentService commentService;
 
-    @PostMapping("/create")
+    @PostMapping("{todoId}/comment/create")
     public ResponseEntity<?> createComment(
             @PathVariable Long todoId,
             @RequestBody CommentRequestDto requestDto,
@@ -36,7 +36,7 @@ public class CommentController {
             return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
     }
 
-    @PutMapping("/update/{commentId}")
+    @PutMapping("{todoId}/comment/update/{commentId}")
     public ResponseEntity<?> updateComment(
             @PathVariable Long todoId,
             @PathVariable Long commentId,
@@ -47,4 +47,13 @@ public class CommentController {
 
         return ResponseEntity.status(HttpStatus.OK).body(responseDto);
     }
+
+//    @DeleteMapping("/delete/{commentId}")
+//    public ResponseEntity<?> deleteComment(
+//            @PathVariable Long todoId,
+//            @PathVariable Long commentId,
+//            @AuthenticationPrincipal UserDetailsImpl userDetails
+//    ){
+//
+//    }
 }

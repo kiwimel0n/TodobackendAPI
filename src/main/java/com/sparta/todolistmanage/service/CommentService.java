@@ -21,7 +21,6 @@ public class CommentService {
         Comment comment = commentRepository.save(new Comment(user,todo,requestDto));
 
         return new CommentResponseDto(comment);
-
     }
 
     @Transactional

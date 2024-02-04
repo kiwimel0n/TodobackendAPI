@@ -32,11 +32,11 @@ public class Comment {
     public Comment(User user, Todo todo, CommentRequestDto requestDto) {
         this.user = user;
         this.todo = todo;
-        this.contents = requestDto.getContent();
+        this.contents = requestDto.getContents();
 
     }
 
     public void update(CommentRequestDto requestDto) {
-        this.contents = requestDto.getContent();
+        this.contents = requestDto.getContents();
     }
 }
