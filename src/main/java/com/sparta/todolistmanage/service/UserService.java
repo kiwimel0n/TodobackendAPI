@@ -1,6 +1,5 @@
 package com.sparta.todolistmanage.service;
 
-import com.sparta.todolistmanage.dto.LoginRequestDto;
 import com.sparta.todolistmanage.dto.SignupRequestDto;
 import com.sparta.todolistmanage.entity.User;
 import com.sparta.todolistmanage.repository.UserRepository;
