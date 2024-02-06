@@ -61,7 +61,7 @@ public class WebSecurityConfig {
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                         .requestMatchers("/").permitAll()
                         .requestMatchers("/api/user/**").permitAll()
-                        .requestMatchers("/api/todo/get/**").permitAll()
+                        .requestMatchers("/api/todo/search/**").permitAll()
                         .anyRequest().authenticated())
                 .addFilterBefore(jwtAuthorizationFilter(), JwtAuthenticationFilter.class)
                 .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
