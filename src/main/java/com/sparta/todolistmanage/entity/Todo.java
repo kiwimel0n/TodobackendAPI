@@ -47,7 +47,7 @@ public class Todo extends Timestamped{
         this.contents = requestDto.getContents();
     }
 
-    public void completeTodo(Todo todo){
+    public void completeTodo(){
         this.complete = true;
     }
 

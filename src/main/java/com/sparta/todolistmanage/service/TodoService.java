@@ -62,7 +62,7 @@ public class TodoService {
         if(!user.getUsername().equals(todo.getUser().getUsername())) {
             throw new IllegalArgumentException("해당 Todo는 작성자만 완료처리가 가능합니다");
         }
-        todo.completeTodo(todo);
+        todo.completeTodo();
         return new TodoResponseDto(todo);
     }
 
