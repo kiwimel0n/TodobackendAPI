@@ -2,6 +2,7 @@ package com.sparta.todolistmanage.entity;
 
 import com.sparta.todolistmanage.dto.CommentRequestDto;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -11,6 +12,7 @@ import java.util.Optional;
 @Table(name="comment")
 @NoArgsConstructor
 @Getter
+@AllArgsConstructor
 public class Comment {
 
     @Id
