@@ -23,7 +23,9 @@ public class TodoService {
 
     @Transactional
     public TodoResponseDto createTodo(TodoRequestDto requestDto, User user){
-        Todo todo = toDoRepository.save(new Todo(requestDto,  user));
+        Todo todo = new Todo(requestDto,  user);
+
+        toDoRepository.save(todo);
         return new TodoResponseDto(todo);
     }
 
@@ -40,7 +42,7 @@ public class TodoService {
         return toDoRepository.findAll()
                 .stream()
                 .map(TodoListResponseDto::new)
-                .sorted(Comparator.comparing(TodoListResponseDto::getModifiedAt).reversed())
+                .sorted(Comparator.comparing(TodoListResponseDto::getModifiedAt, Comparator.nullsLast(Comparator.reverseOrder())))
                 .toList();
     }
 
