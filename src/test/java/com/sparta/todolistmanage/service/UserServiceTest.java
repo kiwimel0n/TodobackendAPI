@@ -37,8 +37,8 @@ class UserServiceTest {
     @DisplayName("정상적인 회원가입")
     void test1() {
         //given
-        String username = "Bob4";
-        String password = "1234567@";
+        String username = "bob4";
+        String password = "aA12345678";
 
         when(userRepository.findByUsername(username)).thenReturn(Optional.empty());
 
@@ -56,8 +56,8 @@ class UserServiceTest {
     @DisplayName("중복된 username 회원가입")
     void test2() {
         //given
-       String username = "Bob5";
-       String password = "1234567@";
+       String username = "bob5";
+       String password = "aA12345678";
 
        when(userRepository.findByUsername(username)).thenReturn(Optional.of(new User()));
         //when
