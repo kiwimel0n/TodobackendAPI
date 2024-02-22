@@ -42,7 +42,7 @@ public class CommentController {
 
             message.setStatus(StatusEnum.CREATED);
             message.setMessage("댓글 생성 성공");
-            message.setData(requestDto);
+            message.setData(responseDto);
 
             return new ResponseEntity<>(message, headers, HttpStatus.CREATED);
     }
