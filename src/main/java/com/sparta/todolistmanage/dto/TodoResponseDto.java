@@ -1,11 +1,13 @@
 package com.sparta.todolistmanage.dto;
 
 import com.sparta.todolistmanage.entity.Todo;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
 
 @Getter
+@AllArgsConstructor
 public class TodoResponseDto {
 
     private Long todoId;
@@ -20,6 +22,8 @@ public class TodoResponseDto {
 
     private LocalDateTime modifiedAt;
 
+    private boolean complete;
+
     public TodoResponseDto(Todo todo) {
         this.todoId = todo.getTodoId();
         this.todoName = todo.getTodoName();
@@ -27,6 +31,8 @@ public class TodoResponseDto {
         this.createdAt = todo.getCreatedAt();
         this.modifiedAt = todo.getModifiedAt();
         this.username = todo.getUser().getUsername();
+        this.complete = todo.isComplete();
 
     }
+
 }

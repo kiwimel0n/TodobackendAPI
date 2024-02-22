@@ -31,7 +31,7 @@ dependencies {
     implementation 'mysql:mysql-connector-java:8.0.28'
     //테스트, 개발환경 분리를 위한 DB 구성
     runtimeOnly 'mysql:mysql-connector-java'
-    runtimeOnly 'com.h2database:h2'
+    testRuntimeOnly 'com.h2database:h2'
 
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-security'

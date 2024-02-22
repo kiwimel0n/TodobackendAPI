@@ -52,7 +52,7 @@ public class TodoController {
         ResponseMessage message = new ResponseMessage();
         HttpHeaders headers = new HttpHeaders();
 
-        headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
+        headers.setContentType(new MediaType(MediaType.APPLICATION_JSON));
         message.setStatus(StatusEnum.OK);
         message.setData(responseDto);
 
@@ -67,7 +67,7 @@ public class TodoController {
         ResponseMessage message = new ResponseMessage();
         HttpHeaders headers = new HttpHeaders();
 
-        headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
+        headers.setContentType(new MediaType(MediaType.APPLICATION_JSON));
         message.setStatus(StatusEnum.OK);
         message.setData(responseDtoList);
 
@@ -86,7 +86,7 @@ public class TodoController {
         ResponseMessage message = new ResponseMessage();
         HttpHeaders headers = new HttpHeaders();
 
-        headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
+        headers.setContentType(new MediaType(MediaType.APPLICATION_JSON));
         message.setStatus(StatusEnum.OK);
         message.setMessage("Todo 수정 성공");
         message.setData(responseDto);
