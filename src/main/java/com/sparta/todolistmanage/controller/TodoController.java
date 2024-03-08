@@ -6,7 +6,7 @@ import com.sparta.todolistmanage.dto.response.ResponseMessage;
 import com.sparta.todolistmanage.dto.response.TodoListResponseDto;
 import com.sparta.todolistmanage.dto.response.TodoResponseDto;
 import com.sparta.todolistmanage.security.UserDetailsImpl;
-import com.sparta.todolistmanage.service.TodoService;
+import com.sparta.todolistmanage.service.TodoServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +21,7 @@ import java.util.List;
 @RequestMapping("/api/todo")
 public class TodoController {
 
-    private final TodoService todoService;
+    private final TodoServiceImpl todoServiceImpl;
 
 
     @PostMapping("/create")
@@ -29,7 +29,7 @@ public class TodoController {
             @RequestBody TodoRequestDto requestDto,
             @AuthenticationPrincipal UserDetailsImpl userDetails
     ){
-        TodoResponseDto responseDto = todoService.createTodo(requestDto, userDetails.getUser());
+        TodoResponseDto responseDto = todoServiceImpl.createTodo(requestDto, userDetails.getUser());
 
         return ResponseEntity.ok()
                 .body(ResponseMessage.builder()
@@ -43,7 +43,7 @@ public class TodoController {
     @GetMapping("/search/{id}")
     public ResponseEntity<ResponseMessage> getTodoById(@PathVariable Long id){
 
-        List<TodoResponseDto> responseDto = todoService.getTodoById(id);
+        List<TodoResponseDto> responseDto = todoServiceImpl.getTodoById(id);
 
         return ResponseEntity.ok()
                 .body(ResponseMessage.builder()
@@ -56,7 +56,7 @@ public class TodoController {
     @GetMapping("/search/all")
     public ResponseEntity<ResponseMessage> getTodoList(){
 
-        List<TodoListResponseDto> responseDtoList = todoService.getAllTodo();
+        List<TodoListResponseDto> responseDtoList = todoServiceImpl.getAllTodo();
 
         return ResponseEntity.ok()
                 .body(ResponseMessage.builder()
@@ -72,7 +72,7 @@ public class TodoController {
             @RequestBody TodoUpdateRequestDto requestDto,
             @AuthenticationPrincipal UserDetailsImpl userDetails) throws Exception {
 
-       TodoResponseDto responseDto = todoService.updateTodo(id, requestDto, userDetails.getUser());
+       TodoResponseDto responseDto = todoServiceImpl.updateTodo(id, requestDto, userDetails.getUser());
 
         return ResponseEntity.ok()
                 .body(ResponseMessage.builder()
@@ -88,7 +88,7 @@ public class TodoController {
             @PathVariable Long id,
             @AuthenticationPrincipal UserDetailsImpl userDetails) throws Exception {
 
-       TodoResponseDto responseDto = todoService.completeTodo(id, userDetails.getUser());
+       TodoResponseDto responseDto = todoServiceImpl.completeTodo(id, userDetails.getUser());
 
         return ResponseEntity.ok()
                 .body(ResponseMessage.builder()

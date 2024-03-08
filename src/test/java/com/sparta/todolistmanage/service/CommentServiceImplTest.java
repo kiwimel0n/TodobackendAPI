@@ -22,13 +22,13 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 @ActiveProfiles("test")
-class CommentServiceTest {
+class CommentServiceImplTest {
 
     @Mock
     CommentRepository commentRepository;
 
     @InjectMocks
-    CommentService commentService;
+    CommentServiceImpl commentServiceImpl;
 
     @Test
     @DisplayName("게시글 댓글 작성")
@@ -40,7 +40,7 @@ class CommentServiceTest {
         CommentRequestDto commentRequestDto = new CommentRequestDto(contents);
 
         //when
-        CommentResponseDto commentResponseDto = commentService.createComment(user,todo,commentRequestDto);
+        CommentResponseDto commentResponseDto = commentServiceImpl.createComment(user,todo,commentRequestDto);
 
         //then
         assertEquals(user.getUsername(),commentResponseDto.getUserName());
@@ -59,7 +59,7 @@ class CommentServiceTest {
         when(commentRepository.findById(commentId)).thenReturn(Optional.of(comment));
 
         //when
-        Comment result = commentService.findCommentById(commentId);
+        Comment result = commentServiceImpl.findCommentById(commentId);
 
         //then
         assertEquals(comment.getCommentId(),result.getCommentId());
@@ -75,7 +75,7 @@ class CommentServiceTest {
 
         //when
         Throwable exception = assertThrows(IllegalArgumentException.class, ()->{
-            commentService.findCommentById(commentId);
+            commentServiceImpl.findCommentById(commentId);
         });
 
         //then
@@ -95,7 +95,7 @@ class CommentServiceTest {
         when(commentRepository.findById(commentId)).thenReturn(Optional.of(comment));
 
         //when
-        CommentResponseDto result = commentService.updateComment(1L,commentRequestDto,user);
+        CommentResponseDto result = commentServiceImpl.updateComment(1L,commentRequestDto,user);
 
         //then
         assertEquals(commentRequestDto.getContents(),result.getContent());
@@ -115,7 +115,7 @@ class CommentServiceTest {
         when(commentRepository.findById(commentId)).thenReturn(Optional.of(comment));
 
         //when
-        commentService.deleteComment(commentId,user);
+        commentServiceImpl.deleteComment(commentId,user);
 
         //then
         verify(commentRepository, times(1)).delete(any(Comment.class));

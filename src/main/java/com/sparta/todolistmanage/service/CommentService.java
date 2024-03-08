@@ -2,57 +2,35 @@ package com.sparta.todolistmanage.service;
 
 import com.sparta.todolistmanage.dto.request.CommentRequestDto;
 import com.sparta.todolistmanage.dto.response.CommentResponseDto;
-import com.sparta.todolistmanage.entity.Comment;
 import com.sparta.todolistmanage.entity.Todo;
 import com.sparta.todolistmanage.entity.User;
-import com.sparta.todolistmanage.repository.CommentRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.nio.file.AccessDeniedException;
-import java.util.NoSuchElementException;
 
-@Service
-@RequiredArgsConstructor
-public class CommentService {
+public interface CommentService {
 
-    private final CommentRepository commentRepository;
+    /**
+     * 댓글 생성
+     * @param user 댓글생성 요청자
+     * @param todo 댓글이 생성될 게시글
+     * @param requestDto 댓글 생성 요청정보
+     * @return 댓글생성 결과
+     */
+    CommentResponseDto createComment(User user, Todo todo, CommentRequestDto requestDto);
 
-    @Transactional
-    public CommentResponseDto createComment(User user, Todo todo, CommentRequestDto requestDto) {
-        Comment comment = new Comment(user,todo,requestDto);
-        commentRepository.save(comment);
+    /**
+     * 댓글 수정
+     * @param commentId 수정할 댓글 ID
+     * @param requestDto 댓글 수정 요청 정보
+     * @param user 댓글 수정 요청자
+     * @return 댓글 수정 결과
+     */
+    CommentResponseDto updateComment(Long commentId, CommentRequestDto requestDto, User user) throws Exception;
 
-        return new CommentResponseDto(comment);
-    }
-
-    @Transactional
-    public CommentResponseDto updateComment(Long commentId, CommentRequestDto requestDto, User user) throws Exception {
-        Comment comment = findCommentById(commentId);
-
-        if(!comment.getUser().getUsername().equals(user.getUsername())){
-            throw new AccessDeniedException("댓글 수정은 해당 사용자가 작성한 댓글만 수정가능합니다.");
-        }
-        comment.update(requestDto);
-
-        return new CommentResponseDto(comment);
-    }
-
-    public Comment findCommentById(Long commentId) {
-
-        return commentRepository.findById(commentId).orElseThrow(
-                 (()-> new NoSuchElementException("해당 Id의 댓글이 존재하지 않습니다."))
-         );
-
-    }
-
-    @Transactional
-    public void deleteComment(Long commentId, User user) throws Exception {
-        Comment comment = findCommentById(commentId);
-        if(!comment.getUser().getUsername().equals(user.getUsername())){
-            throw new AccessDeniedException("댓글의 삭제는 작성자만이 삭제할 수 있습니다.");
-        }
-        commentRepository.delete(comment);
-    }
+    /**
+     * 댓글 삭제
+     * @param commentId 삭제할 댓글 ID
+     * @param user 댓글 삭제 요청자
+     */
+    void deleteComment(Long commentId, User user) throws Exception;
 }

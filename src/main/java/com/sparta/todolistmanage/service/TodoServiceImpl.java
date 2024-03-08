@@ -53,7 +53,7 @@ public class TodoServiceImpl implements TodoService{
 
     @Override
     @Transactional
-    public TodoResponseDto updateTodo(Long todoId, TodoUpdateRequestDto requestDto, User user) throws AccessDeniedException {
+    public TodoResponseDto updateTodo(Long todoId, TodoUpdateRequestDto requestDto, User user) throws Exception {
         Todo todo = findTodoById(todoId);
 
         if(!user.getUsername().equals(todo.getUser().getUsername())) {
@@ -65,7 +65,7 @@ public class TodoServiceImpl implements TodoService{
 
     @Override
     @Transactional
-    public TodoResponseDto completeTodo(Long todoId, User user) throws AccessDeniedException {
+    public TodoResponseDto completeTodo(Long todoId, User user) throws Exception {
         Todo todo = findTodoById(todoId);
 
         if(!user.getUsername().equals(todo.getUser().getUsername())) {

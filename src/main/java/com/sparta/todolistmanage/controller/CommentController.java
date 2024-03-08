@@ -5,8 +5,8 @@ import com.sparta.todolistmanage.dto.response.CommentResponseDto;
 import com.sparta.todolistmanage.dto.response.ResponseMessage;
 import com.sparta.todolistmanage.entity.Todo;
 import com.sparta.todolistmanage.security.UserDetailsImpl;
-import com.sparta.todolistmanage.service.CommentService;
-import com.sparta.todolistmanage.service.TodoService;
+import com.sparta.todolistmanage.service.CommentServiceImpl;
+import com.sparta.todolistmanage.service.TodoServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class CommentController {
 
-    private final TodoService todoService;
+    private final TodoServiceImpl todoService;
 
-    private final CommentService commentService;
+    private final CommentServiceImpl commentService;
 
     @PostMapping("/create")
     public ResponseEntity<ResponseMessage> createComment(

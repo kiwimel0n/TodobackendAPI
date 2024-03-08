@@ -40,7 +40,7 @@ public interface TodoService {
      * @param user 게시글 수정 요청자
      * @return 게시글 수정 결과
      */
-    TodoResponseDto updateTodo(Long todoId, TodoUpdateRequestDto requestDto, User user) throws AccessDeniedException;
+    TodoResponseDto updateTodo(Long todoId, TodoUpdateRequestDto requestDto, User user) throws Exception;
 
     /**
      *  게시글 완료처리
@@ -48,5 +48,5 @@ public interface TodoService {
      * @param user 게시글 완료처리 수정 요청자
      * @return 게시글 완료처리 결과
      */
-    TodoResponseDto completeTodo(Long todoId, User user) throws AccessDeniedException;
+    TodoResponseDto completeTodo(Long todoId, User user) throws Exception;
 }

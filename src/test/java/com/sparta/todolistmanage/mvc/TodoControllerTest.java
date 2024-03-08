@@ -10,7 +10,7 @@ import com.sparta.todolistmanage.dto.response.TodoResponseDto;
 import com.sparta.todolistmanage.entity.Todo;
 import com.sparta.todolistmanage.entity.User;
 import com.sparta.todolistmanage.security.UserDetailsImpl;
-import com.sparta.todolistmanage.service.TodoService;
+import com.sparta.todolistmanage.service.TodoServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -60,7 +60,7 @@ class TodoControllerTest {
     private ObjectMapper objectMapper;
 
     @MockBean
-    TodoService todoService;
+    TodoServiceImpl todoServiceImpl;
 
     @BeforeEach
     public void setup() {
@@ -108,7 +108,7 @@ class TodoControllerTest {
         Todo todo = new Todo(1L,"안녕하세용","반갑구리~!",false,new User());
         List<TodoResponseDto> mockResponseDto = List.of(new TodoResponseDto(todo));
 
-        when(todoService.getTodoById(todoId)).thenReturn(mockResponseDto);
+        when(todoServiceImpl.getTodoById(todoId)).thenReturn(mockResponseDto);
 
         //when
         ResultActions result = mvc.perform(get("/api/todo/search/{id}",todoId));
@@ -132,7 +132,7 @@ class TodoControllerTest {
                 new TodoListResponseDto(todo3)
         );
 
-        when(todoService.getAllTodo()).thenReturn(mockResponseDto);
+        when(todoServiceImpl.getAllTodo()).thenReturn(mockResponseDto);
 
         //when
         ResultActions result = mvc.perform(get("/api/todo/search/all"));
@@ -156,7 +156,7 @@ class TodoControllerTest {
         TodoUpdateRequestDto requestDto = new TodoUpdateRequestDto("안녕하십니까","반가웠습니다.");
         TodoResponseDto todoResponseDto = new TodoResponseDto(todo.getTodoId(),requestDto.getTodoName(),requestDto.getContents(),user.getUsername(), todo.getCreatedAt(),todo.getModifiedAt(),todo.isComplete());
 
-        when(todoService.updateTodo(1L,requestDto,user)).thenReturn(todoResponseDto);
+        when(todoServiceImpl.updateTodo(1L,requestDto,user)).thenReturn(todoResponseDto);
 
         String todoInfo = objectMapper.writeValueAsString(todoResponseDto);
 
@@ -192,7 +192,7 @@ class TodoControllerTest {
                 true
         );
 
-       when(todoService.completeTodo(todoId, user)).thenReturn(responseDto);
+       when(todoServiceImpl.completeTodo(todoId, user)).thenReturn(responseDto);
 
         ResultActions result = mvc.perform(patch("/api/todo/complete/{id}", todoId)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -202,7 +202,7 @@ class TodoControllerTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andDo(print());
 
-        verify(todoService).completeTodo(todoId, user);
+        verify(todoServiceImpl).completeTodo(todoId, user);
 
     }
 

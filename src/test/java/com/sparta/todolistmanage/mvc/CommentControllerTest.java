@@ -7,8 +7,8 @@ import com.sparta.todolistmanage.dto.request.CommentRequestDto;
 import com.sparta.todolistmanage.entity.Todo;
 import com.sparta.todolistmanage.entity.User;
 import com.sparta.todolistmanage.security.UserDetailsImpl;
-import com.sparta.todolistmanage.service.CommentService;
-import com.sparta.todolistmanage.service.TodoService;
+import com.sparta.todolistmanage.service.CommentServiceImpl;
+import com.sparta.todolistmanage.service.TodoServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -54,10 +54,10 @@ class CommentControllerTest {
     private ObjectMapper objectMapper;
 
     @MockBean
-    TodoService todoService;
+    TodoServiceImpl todoServiceImpl;
 
     @MockBean
-    CommentService commentService;
+    CommentServiceImpl commentServiceImpl;
 
     @BeforeEach
     public void setup() {
@@ -82,7 +82,7 @@ class CommentControllerTest {
         Long todoId = 1L;
         Todo todo = new Todo(1L,"안녕하세용","반갑구리~!",false,new User());
 
-        when(todoService.findTodoById(todoId)).thenReturn(todo);
+        when(todoServiceImpl.findTodoById(todoId)).thenReturn(todo);
 
         CommentRequestDto requestDto = new CommentRequestDto("잘보구 있습니다.");
         String commentInfo = objectMapper.writeValueAsString(requestDto);
@@ -96,7 +96,7 @@ class CommentControllerTest {
         );
 
         //then
-        result.andExpect(status().isCreated())
+        result.andExpect(status().isOk())
                 .andDo(print());
     }
 
