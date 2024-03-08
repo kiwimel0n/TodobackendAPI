@@ -136,7 +136,7 @@ class TodoServiceTest {
 
     @Test
     @DisplayName("정상적으로 등록된 todo에 해당하는 유저가 수정")
-    void test6(){
+    void test6() throws Exception {
         //given
         User user = new User("bob3","Aa1234567");
         Long todoId = 1L;
@@ -156,7 +156,7 @@ class TodoServiceTest {
 
     @Test
     @DisplayName("todo 작성자의 todoComplete 완료 업데이트")
-    void test7(){
+    void test7() throws Exception {
         //given
         Long todoId = 1L;
         User user = new User("bob3","Aa1234567");

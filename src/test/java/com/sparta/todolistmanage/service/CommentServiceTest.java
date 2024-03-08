@@ -85,7 +85,7 @@ class CommentServiceTest {
 
     @Test
     @DisplayName("댓글 작성자가 댓글 수정")
-    void test4() {
+    void test4() throws Exception {
         //given
         User user = new User("bob3","Aa1234567");
         Long commentId = 1L;
@@ -106,7 +106,7 @@ class CommentServiceTest {
 
     @Test
     @DisplayName("댓글 작성자가 댓글 삭제")
-    void test5(){
+    void test5() throws Exception {
         //given
         User user = new User("bob3","Aa1234567");
         Long commentId = 3L;
