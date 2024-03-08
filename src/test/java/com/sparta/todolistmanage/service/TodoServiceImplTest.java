@@ -24,13 +24,13 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 @ActiveProfiles("test")
-class TodoServiceTest {
+class TodoServiceImplTest {
 
     @Mock
     ToDoRepository todoRepository;
 
     @InjectMocks
-    TodoService todoService;
+    TodoServiceImpl todoServiceImpl;
 
     @Test
     @DisplayName("정상적인 todo 생성")
@@ -44,7 +44,7 @@ class TodoServiceTest {
         User user = new User();
 
         //when
-        TodoResponseDto todoResponseDto = todoService.createTodo(todoRequestDto, user);
+        TodoResponseDto todoResponseDto = todoServiceImpl.createTodo(todoRequestDto, user);
 
         //then
         verify(todoRepository, times(1)).save(any(Todo.class));
@@ -66,7 +66,7 @@ class TodoServiceTest {
         when(todoRepository.findById(todoId)).thenReturn(Optional.of(todo));
 
         //when
-        List<TodoResponseDto> result = todoService.getTodoById(1L);
+        List<TodoResponseDto> result = todoServiceImpl.getTodoById(1L);
 
         //then
         assertEquals(data.get(0).getTodoId(), result.get(0).getTodoId());
@@ -91,7 +91,7 @@ class TodoServiceTest {
         when(todoRepository.findAll()).thenReturn(dataList);
 
         //when
-        List<TodoListResponseDto> result= todoService.getAllTodo();
+        List<TodoListResponseDto> result= todoServiceImpl.getAllTodo();
 
         //then
         assertEquals(3, result.size());
@@ -108,7 +108,7 @@ class TodoServiceTest {
         when(todoRepository.findById(todoId)).thenReturn(Optional.of(todo));
 
         //when
-        Todo result = todoService.findTodoById(todoId);
+        Todo result = todoServiceImpl.findTodoById(todoId);
 
         //then
         assertEquals(todo.getTodoId(),result.getTodoId());
@@ -126,7 +126,7 @@ class TodoServiceTest {
 
         //when
        Throwable exception = assertThrows(IllegalArgumentException.class,()-> {
-           todoService.findTodoById(todoId);
+           todoServiceImpl.findTodoById(todoId);
        });
 
         //then
@@ -146,7 +146,7 @@ class TodoServiceTest {
         when(todoRepository.findById(todoId)).thenReturn(Optional.of(todo));
 
         //when
-        TodoResponseDto result = todoService.updateTodo(todoId,todoUpdateRequestDto,user);
+        TodoResponseDto result = todoServiceImpl.updateTodo(todoId,todoUpdateRequestDto,user);
 
         //then
         assertEquals(todoUpdateRequestDto.getTodoName(),result.getTodoName());
@@ -165,7 +165,7 @@ class TodoServiceTest {
         when(todoRepository.findById(todoId)).thenReturn(Optional.of(todo));
 
         //when
-        TodoResponseDto result = todoService.completeTodo(todoId,user);
+        TodoResponseDto result = todoServiceImpl.completeTodo(todoId,user);
 
         //then
         assertTrue(todo.isComplete());
