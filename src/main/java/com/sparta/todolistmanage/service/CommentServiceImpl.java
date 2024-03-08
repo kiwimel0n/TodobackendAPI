@@ -6,6 +6,7 @@ import com.sparta.todolistmanage.entity.Comment;
 import com.sparta.todolistmanage.entity.Todo;
 import com.sparta.todolistmanage.entity.User;
 import com.sparta.todolistmanage.repository.CommentRepository;
+import exception.CommentNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,7 +45,7 @@ public class CommentServiceImpl implements CommentService{
     public Comment findCommentById(Long commentId) {
 
         return commentRepository.findById(commentId).orElseThrow(
-                 (()-> new NoSuchElementException("해당 Id의 댓글이 존재하지 않습니다."))
+                 (()-> new CommentNotFoundException("해당 Id의 댓글이 존재하지 않습니다."))
          );
 
     }

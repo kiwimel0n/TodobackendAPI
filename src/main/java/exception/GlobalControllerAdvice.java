@@ -32,4 +32,18 @@ public class GlobalControllerAdvice {
                         e.getMessage()));
     }
 
+    @ExceptionHandler(TodoNotFoundException.class)
+    public ResponseEntity<ExceptionForm> NoSuchElementException(TodoNotFoundException e){
+        return ResponseEntity.badRequest()
+                .body(new ExceptionForm(HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST,
+                        e.getMessage()));
+    }
+
+    @ExceptionHandler(CommentNotFoundException.class)
+    public ResponseEntity<ExceptionForm> NoSuchElementException(CommentNotFoundException e){
+        return ResponseEntity.badRequest()
+                .body(new ExceptionForm(HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST,
+                        e.getMessage()));
+    }
+
 }

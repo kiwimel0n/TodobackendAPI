@@ -7,6 +7,7 @@ import com.sparta.todolistmanage.dto.response.TodoResponseDto;
 import com.sparta.todolistmanage.entity.Todo;
 import com.sparta.todolistmanage.entity.User;
 import com.sparta.todolistmanage.repository.ToDoRepository;
+import exception.TodoNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -77,7 +78,7 @@ public class TodoServiceImpl implements TodoService{
 
     public Todo findTodoById(Long todoId) {
         return toDoRepository.findById(todoId).orElseThrow(
-                ()-> new NoSuchElementException("해당하는 Id를 가진 Todo를 찾을 수 없습니다.")
+                ()-> new TodoNotFoundException("해당하는 Id를 가진 Todo를 찾을 수 없습니다.")
         );
     }
 
