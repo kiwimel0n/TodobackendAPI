@@ -21,14 +21,14 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 @ActiveProfiles("test")
-class UserServiceTest {
+class UserServiceImplTest {
 
     @Mock
     UserRepository userRepository;
     @Spy
     PasswordEncoder passwordEncoder;
     @InjectMocks
-    UserService userService;
+    UserServiceImpl userServiceImpl;
 
 
 
@@ -44,7 +44,7 @@ class UserServiceTest {
 
         //when
         SignupRequestDto signupRequestDto = new SignupRequestDto(username, password);
-        userService.signup(signupRequestDto);
+        userServiceImpl.signup(signupRequestDto);
 
         //then
         verify(userRepository, times(1)).save(any(User.class));
@@ -63,7 +63,7 @@ class UserServiceTest {
         //when
        Throwable exception = assertThrows(IllegalArgumentException.class, ()->{
             SignupRequestDto signupRequestDto = new SignupRequestDto(username, password);
-            userService.signup(signupRequestDto);
+            userServiceImpl.signup(signupRequestDto);
         });
 
 

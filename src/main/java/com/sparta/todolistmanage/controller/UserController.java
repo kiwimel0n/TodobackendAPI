@@ -1,7 +1,7 @@
 package com.sparta.todolistmanage.controller;
 
 import com.sparta.todolistmanage.dto.request.SignupRequestDto;
-import com.sparta.todolistmanage.service.UserService;
+import com.sparta.todolistmanage.service.UserServiceImpl;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/api/user")
 public class UserController {
 
-    private final UserService userService;
+    private final UserServiceImpl userService;
 
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@Valid @RequestBody SignupRequestDto requestDto, BindingResult bindingResult) {
