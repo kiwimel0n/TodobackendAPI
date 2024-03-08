@@ -1,4 +1,4 @@
-package com.sparta.todolistmanage.dto;
+package com.sparta.todolistmanage.dto.response;
 
 import com.sparta.todolistmanage.entity.Comment;
 import lombok.Getter;

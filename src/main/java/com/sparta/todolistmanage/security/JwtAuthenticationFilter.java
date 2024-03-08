@@ -1,7 +1,7 @@
 package com.sparta.todolistmanage.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sparta.todolistmanage.dto.LoginRequestDto;
+import com.sparta.todolistmanage.dto.request.LoginRequestDto;
 import com.sparta.todolistmanage.jwt.JwtUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

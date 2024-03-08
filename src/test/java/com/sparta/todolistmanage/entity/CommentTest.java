@@ -1,6 +1,6 @@
 package com.sparta.todolistmanage.entity;
 
-import com.sparta.todolistmanage.dto.CommentRequestDto;
+import com.sparta.todolistmanage.dto.request.CommentRequestDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

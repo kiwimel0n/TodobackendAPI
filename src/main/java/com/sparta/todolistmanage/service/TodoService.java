@@ -1,9 +1,9 @@
 package com.sparta.todolistmanage.service;
 
-import com.sparta.todolistmanage.dto.TodoListResponseDto;
-import com.sparta.todolistmanage.dto.TodoRequestDto;
-import com.sparta.todolistmanage.dto.TodoResponseDto;
-import com.sparta.todolistmanage.dto.TodoUpdateRequestDto;
+import com.sparta.todolistmanage.dto.request.TodoRequestDto;
+import com.sparta.todolistmanage.dto.request.TodoUpdateRequestDto;
+import com.sparta.todolistmanage.dto.response.TodoListResponseDto;
+import com.sparta.todolistmanage.dto.response.TodoResponseDto;
 import com.sparta.todolistmanage.entity.Todo;
 import com.sparta.todolistmanage.entity.User;
 import com.sparta.todolistmanage.repository.ToDoRepository;
@@ -11,8 +11,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.nio.file.AccessDeniedException;
 import java.util.Comparator;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
@@ -46,22 +48,22 @@ public class TodoService {
     }
 
     @Transactional
-    public TodoResponseDto updateTodo(Long todoId, TodoUpdateRequestDto requestDto, User user) {
+    public TodoResponseDto updateTodo(Long todoId, TodoUpdateRequestDto requestDto, User user) throws Exception {
         Todo todo = findTodoById(todoId);
 
         if(!user.getUsername().equals(todo.getUser().getUsername())) {
-            throw new IllegalArgumentException("해당 Todo은 작성자만 수정할 수 있습니다.");
+            throw new AccessDeniedException("해당 Todo은 작성자만 수정할 수 있습니다.");
         }
         todo.update(requestDto);
         return new TodoResponseDto(todo);
     }
 
     @Transactional
-    public TodoResponseDto completeTodo(Long todoId, User user) {
+    public TodoResponseDto completeTodo(Long todoId, User user) throws Exception {
         Todo todo = findTodoById(todoId);
 
         if(!user.getUsername().equals(todo.getUser().getUsername())) {
-            throw new IllegalArgumentException("해당 Todo는 작성자만 완료처리가 가능합니다");
+            throw new AccessDeniedException("해당 Todo는 작성자만 완료처리가 가능합니다");
         }
         todo.completeTodo();
         return new TodoResponseDto(todo);
@@ -69,7 +71,7 @@ public class TodoService {
 
     public Todo findTodoById(Long todoId) {
         return toDoRepository.findById(todoId).orElseThrow(
-                ()-> new IllegalArgumentException("해당하는 Id를 가진 Todo를 찾을 수 없습니다.")
+                ()-> new NoSuchElementException("해당하는 Id를 가진 Todo를 찾을 수 없습니다.")
         );
     }
 

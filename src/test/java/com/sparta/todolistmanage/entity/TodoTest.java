@@ -1,7 +1,7 @@
 package com.sparta.todolistmanage.entity;
 
-import com.sparta.todolistmanage.dto.TodoRequestDto;
-import com.sparta.todolistmanage.dto.TodoUpdateRequestDto;
+import com.sparta.todolistmanage.dto.request.TodoRequestDto;
+import com.sparta.todolistmanage.dto.request.TodoUpdateRequestDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

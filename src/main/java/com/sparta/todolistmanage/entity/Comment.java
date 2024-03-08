@@ -1,6 +1,6 @@
 package com.sparta.todolistmanage.entity;
 
-import com.sparta.todolistmanage.dto.CommentRequestDto;
+import com.sparta.todolistmanage.dto.request.CommentRequestDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

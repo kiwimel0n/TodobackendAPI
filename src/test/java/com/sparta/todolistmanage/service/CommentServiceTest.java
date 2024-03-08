@@ -1,7 +1,7 @@
 package com.sparta.todolistmanage.service;
 
-import com.sparta.todolistmanage.dto.CommentRequestDto;
-import com.sparta.todolistmanage.dto.CommentResponseDto;
+import com.sparta.todolistmanage.dto.request.CommentRequestDto;
+import com.sparta.todolistmanage.dto.response.CommentResponseDto;
 import com.sparta.todolistmanage.entity.Comment;
 import com.sparta.todolistmanage.entity.Todo;
 import com.sparta.todolistmanage.entity.User;

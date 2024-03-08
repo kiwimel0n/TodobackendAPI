@@ -1,6 +1,6 @@
 package com.sparta.todolistmanage.service;
 
-import com.sparta.todolistmanage.dto.SignupRequestDto;
+import com.sparta.todolistmanage.dto.request.SignupRequestDto;
 import com.sparta.todolistmanage.entity.User;
 import com.sparta.todolistmanage.repository.UserRepository;
 import org.junit.jupiter.api.DisplayName;

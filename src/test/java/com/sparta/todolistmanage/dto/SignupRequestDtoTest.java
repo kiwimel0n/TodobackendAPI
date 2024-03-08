@@ -1,5 +1,6 @@
 package com.sparta.todolistmanage.dto;
 
+import com.sparta.todolistmanage.dto.request.SignupRequestDto;
 import jakarta.validation.ValidationException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

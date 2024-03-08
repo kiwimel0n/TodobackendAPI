@@ -3,10 +3,10 @@ package com.sparta.todolistmanage.mvc;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sparta.todolistmanage.config.WebSecurityConfig;
 import com.sparta.todolistmanage.controller.TodoController;
-import com.sparta.todolistmanage.dto.TodoListResponseDto;
-import com.sparta.todolistmanage.dto.TodoRequestDto;
-import com.sparta.todolistmanage.dto.TodoResponseDto;
-import com.sparta.todolistmanage.dto.TodoUpdateRequestDto;
+import com.sparta.todolistmanage.dto.request.TodoRequestDto;
+import com.sparta.todolistmanage.dto.request.TodoUpdateRequestDto;
+import com.sparta.todolistmanage.dto.response.TodoListResponseDto;
+import com.sparta.todolistmanage.dto.response.TodoResponseDto;
 import com.sparta.todolistmanage.entity.Todo;
 import com.sparta.todolistmanage.entity.User;
 import com.sparta.todolistmanage.security.UserDetailsImpl;
@@ -85,6 +85,7 @@ class TodoControllerTest {
         String todoName = "안녕하숑";
         String contents = "반갑구리~!";
         TodoRequestDto requestDto = new TodoRequestDto(todoName,contents);
+
 
         String todoInfo = objectMapper.writeValueAsString(requestDto);
 

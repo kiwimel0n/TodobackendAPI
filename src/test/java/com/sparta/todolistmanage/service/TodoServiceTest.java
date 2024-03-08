@@ -1,9 +1,9 @@
 package com.sparta.todolistmanage.service;
 
-import com.sparta.todolistmanage.dto.TodoListResponseDto;
-import com.sparta.todolistmanage.dto.TodoRequestDto;
-import com.sparta.todolistmanage.dto.TodoResponseDto;
-import com.sparta.todolistmanage.dto.TodoUpdateRequestDto;
+import com.sparta.todolistmanage.dto.request.TodoRequestDto;
+import com.sparta.todolistmanage.dto.request.TodoUpdateRequestDto;
+import com.sparta.todolistmanage.dto.response.TodoListResponseDto;
+import com.sparta.todolistmanage.dto.response.TodoResponseDto;
 import com.sparta.todolistmanage.entity.Todo;
 import com.sparta.todolistmanage.entity.User;
 import com.sparta.todolistmanage.repository.ToDoRepository;

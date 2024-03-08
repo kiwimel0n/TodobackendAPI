@@ -1,4 +1,4 @@
-package com.sparta.todolistmanage.dto;
+package com.sparta.todolistmanage.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
