@@ -6,29 +6,29 @@ import com.sparta.todolistmanage.dto.response.TodoListResponseDto;
 import com.sparta.todolistmanage.dto.response.TodoResponseDto;
 import com.sparta.todolistmanage.entity.Todo;
 import com.sparta.todolistmanage.entity.User;
-import com.sparta.todolistmanage.repository.ToDoRepository;
+import com.sparta.todolistmanage.repository.TodoRepository;
 import exception.TodoNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.nio.file.AccessDeniedException;
-import java.util.Comparator;
 import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class TodoServiceImpl implements TodoService{
 
-    private final ToDoRepository toDoRepository;
+    private final TodoRepository todoRepository;
 
     @Override
     @Transactional
     public TodoResponseDto createTodo(TodoRequestDto requestDto, User user){
         Todo todo = new Todo(requestDto,  user);
 
-        toDoRepository.save(todo);
+        todoRepository.save(todo);
         return new TodoResponseDto(todo);
     }
 
@@ -36,7 +36,7 @@ public class TodoServiceImpl implements TodoService{
     @Override
     @Transactional(readOnly = true)
     public List<TodoResponseDto> getTodoById(Long todoId) {
-        return toDoRepository.findById(todoId)
+        return todoRepository.findById(todoId)
                 .stream()
                 .map(TodoResponseDto::new)
                 .toList();
@@ -44,12 +44,11 @@ public class TodoServiceImpl implements TodoService{
 
     @Override
     @Transactional(readOnly = true)
-    public List<TodoListResponseDto> getAllTodo() {
-        return toDoRepository.findAll()
+    public List<TodoListResponseDto> getAllTodo(Pageable pageable) {
+        return todoRepository.findAllTodo(pageable)
                 .stream()
                 .map(TodoListResponseDto::new)
-                .sorted(Comparator.comparing(TodoListResponseDto::getModifiedAt, Comparator.nullsLast(Comparator.reverseOrder())))
-                .toList();
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -77,7 +76,7 @@ public class TodoServiceImpl implements TodoService{
     }
 
     public Todo findTodoById(Long todoId) {
-        return toDoRepository.findById(todoId).orElseThrow(
+        return todoRepository.findById(todoId).orElseThrow(
                 ()-> new TodoNotFoundException("해당하는 Id를 가진 Todo를 찾을 수 없습니다.")
         );
     }

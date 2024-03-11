@@ -1,11 +1,13 @@
 package com.sparta.todolistmanage.dto.response;
 
 import com.sparta.todolistmanage.entity.Todo;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
 
 @Getter
+@AllArgsConstructor
 public class TodoListResponseDto {
 
     private Long todoId;
@@ -30,6 +32,5 @@ public class TodoListResponseDto {
         this.modifiedAt = todo.getModifiedAt();
         this.complete = todo.isComplete();
     }
-
 
 }

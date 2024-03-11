@@ -6,8 +6,8 @@ import com.sparta.todolistmanage.dto.request.TodoUpdateRequestDto;
 import com.sparta.todolistmanage.dto.response.TodoListResponseDto;
 import com.sparta.todolistmanage.dto.response.TodoResponseDto;
 import com.sparta.todolistmanage.entity.User;
+import org.springframework.data.domain.Pageable;
 
-import java.nio.file.AccessDeniedException;
 import java.util.List;
 
 public interface TodoService {
@@ -31,7 +31,7 @@ public interface TodoService {
      *  전체 게시글 요청
      * @return 게시글 목록 리스트
      */
-    List<TodoListResponseDto> getAllTodo();
+    List<TodoListResponseDto> getAllTodo(Pageable pageable);
 
     /**
      *  게시글 수정

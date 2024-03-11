@@ -5,8 +5,6 @@ import com.sparta.todolistmanage.dto.response.CommentResponseDto;
 import com.sparta.todolistmanage.entity.Todo;
 import com.sparta.todolistmanage.entity.User;
 
-import java.nio.file.AccessDeniedException;
-
 public interface CommentService {
 
     /**

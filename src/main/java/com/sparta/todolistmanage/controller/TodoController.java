@@ -1,5 +1,6 @@
 package com.sparta.todolistmanage.controller;
 
+import com.sparta.todolistmanage.dto.request.PageDTO;
 import com.sparta.todolistmanage.dto.request.TodoRequestDto;
 import com.sparta.todolistmanage.dto.request.TodoUpdateRequestDto;
 import com.sparta.todolistmanage.dto.response.ResponseMessage;
@@ -54,9 +55,9 @@ public class TodoController {
     }
 
     @GetMapping("/search/all")
-    public ResponseEntity<ResponseMessage> getTodoList(){
+    public ResponseEntity<ResponseMessage> getTodoList(PageDTO pageDTO){
 
-        List<TodoListResponseDto> responseDtoList = todoServiceImpl.getAllTodo();
+        List<TodoListResponseDto> responseDtoList = todoServiceImpl.getAllTodo(pageDTO.toPageable());
 
         return ResponseEntity.ok()
                 .body(ResponseMessage.builder()

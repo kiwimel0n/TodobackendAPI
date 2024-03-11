@@ -3,6 +3,7 @@ package com.sparta.todolistmanage.mvc;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sparta.todolistmanage.config.WebSecurityConfig;
 import com.sparta.todolistmanage.controller.TodoController;
+import com.sparta.todolistmanage.dto.request.PageDTO;
 import com.sparta.todolistmanage.dto.request.TodoRequestDto;
 import com.sparta.todolistmanage.dto.request.TodoUpdateRequestDto;
 import com.sparta.todolistmanage.dto.response.TodoListResponseDto;
@@ -131,8 +132,9 @@ class TodoControllerTest {
                 new TodoListResponseDto(todo2),
                 new TodoListResponseDto(todo3)
         );
+        PageDTO pageDTO = new PageDTO(1,10);
 
-        when(todoServiceImpl.getAllTodo()).thenReturn(mockResponseDto);
+        when(todoServiceImpl.getAllTodo(pageDTO.toPageable())).thenReturn(mockResponseDto);
 
         //when
         ResultActions result = mvc.perform(get("/api/todo/search/all"));

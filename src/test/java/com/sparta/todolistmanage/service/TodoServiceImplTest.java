@@ -1,12 +1,13 @@
 package com.sparta.todolistmanage.service;
 
+import com.sparta.todolistmanage.dto.request.PageDTO;
 import com.sparta.todolistmanage.dto.request.TodoRequestDto;
 import com.sparta.todolistmanage.dto.request.TodoUpdateRequestDto;
 import com.sparta.todolistmanage.dto.response.TodoListResponseDto;
 import com.sparta.todolistmanage.dto.response.TodoResponseDto;
 import com.sparta.todolistmanage.entity.Todo;
 import com.sparta.todolistmanage.entity.User;
-import com.sparta.todolistmanage.repository.ToDoRepository;
+import com.sparta.todolistmanage.repository.TodoRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -27,7 +28,7 @@ import static org.mockito.Mockito.*;
 class TodoServiceImplTest {
 
     @Mock
-    ToDoRepository todoRepository;
+    TodoRepository todoRepository;
 
     @InjectMocks
     TodoServiceImpl todoServiceImpl;
@@ -89,9 +90,10 @@ class TodoServiceImplTest {
         );
 
         when(todoRepository.findAll()).thenReturn(dataList);
+        PageDTO pageDTO = new PageDTO(1,10);
 
         //when
-        List<TodoListResponseDto> result= todoServiceImpl.getAllTodo();
+        List<TodoListResponseDto> result= todoServiceImpl.getAllTodo(pageDTO.toPageable());
 
         //then
         assertEquals(3, result.size());
