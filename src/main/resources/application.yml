@@ -1,15 +1,17 @@
 # 기본 설정
 spring:
-  profiles:
-    active: dev  # 기본 프로파일을 dev로 설정
+  config:
+    activate:
+      on-profile: dev # 기본 프로파일을 dev로 설정
 
 ---
 
 # dev 프로파일
 spring:
-  profiles: dev
+  profiles:
+    active: dev
   datasource:
-    url: jdbc:mysql://localhost:3306/TodoList
+    url: jdbc:mysql://localhost:3305/TodoList
     username: root
     password: 1234567@
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -30,16 +32,18 @@ jwt:
 ---
 
 # test 프로파일
-spring:
-  profiles: test
-  datasource:
-    url: jdbc:h2:mem:TodoListTest;MODE=MySQL
-
-  jpa:
-    hibernate:
-      ddl-auto: update
-    properties:
-      hibernate:
-        show_sql: true
-        format_sql: true
-        use_sql_comments: true
+#spring:
+#  profiles:
+#    active: test
+#  datasource:
+#    url: jdbc:h2:mem:TodoListTest;MODE=MySQL
+#    driver-class-name: org.h2.Driver
+#
+#  jpa:
+#    hibernate:
+#      ddl-auto: update
+#    properties:
+#      hibernate:
+#        show_sql: true
+#        format_sql: true
+#        use_sql_comments: true
