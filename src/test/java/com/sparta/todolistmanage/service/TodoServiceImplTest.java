@@ -8,6 +8,7 @@ import com.sparta.todolistmanage.dto.response.TodoResponseDto;
 import com.sparta.todolistmanage.entity.Todo;
 import com.sparta.todolistmanage.entity.User;
 import com.sparta.todolistmanage.repository.TodoRepository;
+import exception.TodoNotFoundException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -88,16 +89,16 @@ class TodoServiceImplTest {
                 todo2,
                 todo3
         );
-
-        when(todoRepository.findAll()).thenReturn(dataList);
         PageDTO pageDTO = new PageDTO(1,10);
+
+        when(todoRepository.findAllTodo(pageDTO.toPageable())).thenReturn(dataList);
 
         //when
         List<TodoListResponseDto> result= todoServiceImpl.getAllTodo(pageDTO.toPageable());
 
         //then
-        assertEquals(3, result.size());
-        verify(todoRepository, times(1)).findAll();
+        assertEquals("가입인사4",result.get(2).getTodoName());
+        verify(todoRepository, times(1)).findAllTodo(any(pageDTO.toPageable().getClass()));
     }
 
     @Test
@@ -127,7 +128,7 @@ class TodoServiceImplTest {
 
 
         //when
-       Throwable exception = assertThrows(IllegalArgumentException.class,()-> {
+       Throwable exception = assertThrows(TodoNotFoundException.class,()-> {
            todoServiceImpl.findTodoById(todoId);
        });
 
