@@ -156,7 +156,15 @@ class TodoControllerTest {
         Long todoId = 1L;
         Todo todo = new Todo(1L,"가입인사","반갑습니다,",false,user);
         TodoUpdateRequestDto requestDto = new TodoUpdateRequestDto("안녕하십니까","반가웠습니다.");
-        TodoResponseDto todoResponseDto = new TodoResponseDto(todo.getTodoId(),requestDto.getTodoName(),requestDto.getContents(),user.getUsername(), todo.getCreatedAt(),todo.getModifiedAt(),todo.isComplete());
+        TodoResponseDto todoResponseDto = new TodoResponseDto(
+                todo.getTodoId(),
+                requestDto.getTodoName(),
+                requestDto.getContents(),
+                user.getUsername(),
+                todo.getCreatedAt(),
+                todo.getModifiedAt(),
+                todo.isComplete()
+        );
 
         when(todoServiceImpl.updateTodo(1L,requestDto,user)).thenReturn(todoResponseDto);
 
