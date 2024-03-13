@@ -55,7 +55,7 @@ public class TodoController {
     }
 
     @GetMapping("/search/all")
-    public ResponseEntity<ResponseMessage> getTodoList(PageDTO pageDTO){
+    public ResponseEntity<ResponseMessage> getTodoList(@RequestBody PageDTO pageDTO){
 
         List<TodoListResponseDto> responseDtoList = todoServiceImpl.getAllTodo(pageDTO.toPageable());
 
