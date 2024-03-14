@@ -12,7 +12,7 @@ spring:
     active: dev
   datasource:
     url: jdbc:mysql://localhost:3305/TodoList
-    username: root
+    username: user
     password: 1234567@
     driver-class-name: com.mysql.cj.jdbc.Driver
 
@@ -24,6 +24,10 @@ spring:
         show_sql: true
         format_sql: true
         use_sql_comments: true
+  data:
+    redis:
+      port: 6379
+      host: localhost
 
 jwt:
   secret:

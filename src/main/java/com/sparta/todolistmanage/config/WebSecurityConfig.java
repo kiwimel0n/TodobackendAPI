@@ -1,8 +1,8 @@
 package com.sparta.todolistmanage.config;
 
 import com.sparta.todolistmanage.jwt.JwtUtil;
-import com.sparta.todolistmanage.security.JwtAuthenticationFilter;
-import com.sparta.todolistmanage.security.JwtAuthorizationFilter;
+
+import com.sparta.todolistmanage.security.JwtAuthFilter;
 import com.sparta.todolistmanage.security.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
@@ -38,16 +38,10 @@ public class WebSecurityConfig {
         return configuration.getAuthenticationManager();
     }
 
-    @Bean
-    public JwtAuthenticationFilter jwtAuthenticationFilter() throws Exception {
-        JwtAuthenticationFilter filter =new JwtAuthenticationFilter(jwtUtil);
-        filter.setAuthenticationManager(authenticationManager(authenticationConfiguration));
-        return filter;
-    }
 
     @Bean
-    public JwtAuthorizationFilter jwtAuthorizationFilter() {
-        return new JwtAuthorizationFilter(jwtUtil,userDetailsService);
+    public JwtAuthFilter jwtAuthorizationFilter() {
+        return new JwtAuthFilter(jwtUtil,userDetailsService);
     }
 
 
@@ -63,8 +57,7 @@ public class WebSecurityConfig {
                         .requestMatchers("/api/user/**").permitAll()
                         .requestMatchers("/api/todo/search/**").permitAll()
                         .anyRequest().authenticated())
-                .addFilterBefore(jwtAuthorizationFilter(), JwtAuthenticationFilter.class)
-                .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(jwtAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .build();
 
     }

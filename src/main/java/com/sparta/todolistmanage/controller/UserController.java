@@ -1,8 +1,12 @@
 package com.sparta.todolistmanage.controller;
 
+import com.sparta.todolistmanage.dto.request.LoginRequestDto;
 import com.sparta.todolistmanage.dto.request.SignupRequestDto;
 import com.sparta.todolistmanage.dto.response.ResponseMessage;
+import com.sparta.todolistmanage.dto.response.TokenDto;
+import com.sparta.todolistmanage.jwt.JwtUtil;
 import com.sparta.todolistmanage.service.UserServiceImpl;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class UserController {
 
     private final UserServiceImpl userService;
+    private final JwtUtil jwtUtil;
 
     @PostMapping("/signup")
     public ResponseEntity<ResponseMessage> signup(@Valid @RequestBody SignupRequestDto requestDto, BindingResult bindingResult) {
@@ -38,6 +43,22 @@ public class UserController {
                 .body(ResponseMessage.builder()
                         .httpStatus(HttpStatus.OK.value())
                         .message("회원가입 성공")
+                        .build());
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<ResponseMessage> login(
+            @RequestBody LoginRequestDto requestDto,
+            HttpServletResponse response) throws Exception {
+        TokenDto tokenDto = userService.login(requestDto);
+        jwtUtil.accessTokenSetHeader(tokenDto.getAccessToken(),response);
+        jwtUtil.addJwtRefreshTokenToCookie(tokenDto.getRefreshToken(),response);
+
+
+        return ResponseEntity.ok()
+                .body(ResponseMessage.builder()
+                        .httpStatus(HttpStatus.OK.value())
+                        .message("로그인 성공")
                         .build());
     }
 
