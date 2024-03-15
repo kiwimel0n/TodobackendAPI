@@ -1,4 +1,4 @@
-https://documenter.getpostman.com/view/32380793/2s9YywdJzk
+[https://documenter.getpostman.com/view/32380793/2s9YywdJzk](https://documenter.getpostman.com/view/32380793/2s9YywdJzk)
 API 명세서
 
 ERD 다이어그램
