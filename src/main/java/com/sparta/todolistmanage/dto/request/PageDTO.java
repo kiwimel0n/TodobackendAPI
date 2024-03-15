@@ -13,6 +13,7 @@ import java.util.Objects;
 @Getter
 @AllArgsConstructor
 @Builder
+@RequiredArgsConstructor
 public class PageDTO {
 
     private final Integer currentPage;

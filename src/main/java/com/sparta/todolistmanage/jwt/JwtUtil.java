@@ -6,7 +6,6 @@ import com.sparta.todolistmanage.repository.TokenRepository;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
-import jakarta.annotation.Resource;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -14,13 +13,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Base64;
 import java.util.Date;
@@ -63,8 +61,7 @@ public class JwtUtil {
         String accessToken = createAccessToken(username);
         String refreshToken = createRefreshToken(username);
 
-        Token token = new Token(username,accessToken,refreshToken);
-        tokenRepository.save(token);
+        TokenDto token = new TokenDto(username,accessToken,refreshToken);
 
         return new TokenDto(username,accessToken,refreshToken);
     }
@@ -84,27 +81,28 @@ public class JwtUtil {
     public String createRefreshToken(String username) {
         Date date = new Date();
 
-        return BEARER_PREFIX +
+        String refreshToken = BEARER_PREFIX +
                 Jwts.builder()
                         .setSubject(username)
                         .setExpiration(new Date(date.getTime() + REFRESH_TOKEN_TIME))
                         .setIssuedAt(date)
                         .signWith(key, signatureAlgorithm)
                         .compact();
+        Token token = new Token(username, refreshToken, REFRESH_TOKEN_TIME * 1000L);
+        tokenRepository.save(token);
+
+        return refreshToken;
     }
 
     public void addJwtRefreshTokenToCookie(String refreshToken, HttpServletResponse res) {
-        try {
-            String token = URLEncoder.encode(refreshToken, "utf-8").replaceAll("\\+", "%20"); // Cookie Value 에는 공백이 불가능해서 encoding 진행
+        String token = URLEncoder.encode(refreshToken, StandardCharsets.UTF_8).replaceAll("\\+", "%20"); // Cookie Value 에는 공백이 불가능해서 encoding 진행
 
-            Cookie cookie = new Cookie("refreshToken", token); // Name-Value
-            cookie.setPath("/");
+        Cookie cookie = new Cookie("refreshToken", token); // Name-Value
+        cookie.setPath("/");
+        cookie.setMaxAge(30 * 60);
 
-            // Response 객체에 Cookie 추가
-            res.addCookie(cookie);
-        } catch (UnsupportedEncodingException e) {
-            log.error(e.getMessage());
-        }
+        // Response 객체에 Cookie 추가
+        res.addCookie(cookie);
     }
 
     // header 에서 JWT 가져오기
@@ -139,15 +137,25 @@ public class JwtUtil {
     }
 
     public void accessTokenSetHeader(String accessToken, HttpServletResponse response) {
-        String headerValue = BEARER_PREFIX + accessToken;
-        response.setHeader(AUTHORIZATION_HEADER, headerValue);
+        response.setHeader(AUTHORIZATION_HEADER, accessToken);
     }
 
     public boolean validateRefreshToken(String refreshToken) {
-        Claims info = getUserInfoFromToken(refreshToken);
-        Token storedRefreshToken = tokenRepository.findByUsername(info.getSubject());
-
-        return validateToken(storedRefreshToken.getRefreshToken());
+        String token = substringToken(refreshToken);
+        Claims info = getUserInfoFromToken(token);
+        String storedToken = tokenRepository.findById(info.getSubject()).get().getRefreshToken();
+        System.out.println("redis에서 가저온 토큰" + storedToken);
+        if(!refreshToken.equals(storedToken)){
+            return false;
+        }
+        return validateToken(token);
+    }
+    public String substringToken(String tokenValue) {
+        if (StringUtils.hasText(tokenValue) && tokenValue.startsWith(BEARER_PREFIX)) {
+            return tokenValue.substring(7);
+        }
+        log.error("Not Found Token");
+        throw new NullPointerException("Not Found Token");
     }
 
 
@@ -156,11 +164,7 @@ public class JwtUtil {
         if(cookies != null) {
             for (Cookie cookie : cookies) {
                 if (cookie.getName().equals("refreshToken")) {
-                    try {
-                        return URLDecoder.decode(cookie.getValue(), "UTF-8"); // Encode 되어 넘어간 Value 다시 Decode
-                    } catch (UnsupportedEncodingException e) {
-                        return null;
-                    }
+                    return URLDecoder.decode(cookie.getValue(), StandardCharsets.UTF_8); // Encode 되어 넘어간 Value 다시 Decode
                 }
             }
         }

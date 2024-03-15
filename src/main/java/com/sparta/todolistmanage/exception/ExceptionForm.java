@@ -1,4 +1,4 @@
-package exception;
+package com.sparta.todolistmanage.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,7 +1,6 @@
 package com.sparta.todolistmanage.config;
 
 import com.sparta.todolistmanage.jwt.JwtUtil;
-
 import com.sparta.todolistmanage.security.JwtAuthFilter;
 import com.sparta.todolistmanage.security.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;

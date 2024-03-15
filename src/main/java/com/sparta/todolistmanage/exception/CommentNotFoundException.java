@@ -1,4 +1,4 @@
-package exception;
+package com.sparta.todolistmanage.exception;
 
 public class CommentNotFoundException extends RuntimeException{
 

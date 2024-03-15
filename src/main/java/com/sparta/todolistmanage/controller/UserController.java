@@ -6,6 +6,8 @@ import com.sparta.todolistmanage.dto.response.ResponseMessage;
 import com.sparta.todolistmanage.dto.response.TokenDto;
 import com.sparta.todolistmanage.jwt.JwtUtil;
 import com.sparta.todolistmanage.service.UserServiceImpl;
+import io.jsonwebtoken.Claims;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -59,6 +61,28 @@ public class UserController {
                 .body(ResponseMessage.builder()
                         .httpStatus(HttpStatus.OK.value())
                         .message("로그인 성공")
+                        .build());
+    }
+
+    @PostMapping("/refresh")
+    public ResponseEntity<ResponseMessage> recreateAccessToken(
+            HttpServletRequest request,
+            HttpServletResponse response
+    ){
+
+        String refreshToken = jwtUtil.getRefreshTokenFromRequest(request);
+        System.out.println(refreshToken);
+        if(jwtUtil.validateRefreshToken(refreshToken)) {
+            String token = jwtUtil.substringToken(refreshToken);
+            Claims info = jwtUtil.getUserInfoFromToken(token);
+            String accessToken = jwtUtil.createAccessToken(info.getSubject());
+            System.out.println("새로만들어진 엑세스 토큰  " + accessToken);
+            jwtUtil.accessTokenSetHeader(accessToken, response);
+
+        }
+        return ResponseEntity.ok()
+                .body(ResponseMessage.builder()
+                        .httpStatus(HttpStatus.OK.value())
                         .build());
     }
 

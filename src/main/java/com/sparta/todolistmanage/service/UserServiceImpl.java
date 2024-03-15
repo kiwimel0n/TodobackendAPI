@@ -6,7 +6,6 @@ import com.sparta.todolistmanage.dto.response.TokenDto;
 import com.sparta.todolistmanage.entity.User;
 import com.sparta.todolistmanage.jwt.JwtUtil;
 import com.sparta.todolistmanage.repository.UserRepository;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
