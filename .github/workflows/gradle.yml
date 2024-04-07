@@ -17,8 +17,6 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
 
     steps:
     - uses: actions/checkout@v4
@@ -31,21 +29,13 @@ jobs:
     - name: make application.yml
       run: |
         # create application.yml
-        cd ./src/main
-        ## mkdir resources
-        cd ./resources
-
-        # application.yml 파일 생성하기
-        touch ./application.yml
-
-        # Secrets에 저장한 값을 application.yml 파일에 쓰기
-        echo "${{ secrets.DATABASE_PROD }}" >> ./application.yml
-
-      shell: bash
+        mkdir -p src/main/resources
+        echo "${{ secrets.DATABASE_PROD }}" > src/main/resources/application.yml
 
     - name: Build with Gradle
-      run: chmod +x ./gradlew
-           ./gradlew bootJar
+      run: |
+        chmod +x ./gradlew
+        ./gradlew bootJar
 
     ## 도커 이미지 빌드 후 도커허브에 push하기
     - name: web docker build and push
@@ -53,7 +43,8 @@ jobs:
         docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
         docker build -t ${{ secrets.DOCKER_REPO }} .
         docker push ${{ secrets.DOCKERHUB_USERNAME }}/test_reposit
-         
+
+        
     ## 서버에 접속하여 도커 이미지를 pull 받고 실행하기
    ## - name: executing remote ssh commands using password
     ##  uses: appleboy/ssh-action@v0.1.6
