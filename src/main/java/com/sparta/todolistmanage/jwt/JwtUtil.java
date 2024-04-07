@@ -28,8 +28,6 @@ import java.util.Date;
 @RequiredArgsConstructor
 public class JwtUtil {
 
-    private final RedisTemplate<String, String> redisTemplate;
-
     private final TokenRepository tokenRepository;
 
     // Header KEY 값
